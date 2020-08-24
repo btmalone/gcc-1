@@ -50,6 +50,7 @@ RUN set -ex; \
 	apt-get install -y --no-install-recommends \
 		dpkg-dev \
 		flex \
+		gnat \
 	; \
 	rm -r /var/lib/apt/lists/*; \
 	\
@@ -118,7 +119,7 @@ RUN set -ex; \
 	/usr/src/gcc/configure \
 		--build="$gnuArch" \
 		--disable-multilib \
-		--enable-languages=c,c++,fortran,go \
+		--enable-languages=ada,c,c++,fortran,go \
 		$extraConfigureArgs \
 	; \
 	make -j "$(nproc)"; \
@@ -142,4 +143,18 @@ RUN set -ex; \
 	dpkg-divert --divert /usr/bin/gcc.orig --rename /usr/bin/gcc; \
 	dpkg-divert --divert /usr/bin/g++.orig --rename /usr/bin/g++; \
 	dpkg-divert --divert /usr/bin/gfortran.orig --rename /usr/bin/gfortran; \
+	dpkg-divert --divert /usr/bin/gnat.orig --rename /usr/bin/gnat; \
+	dpkg-divert --divert /usr/bin/gnatbind.orig --rename /usr/bin/gnatbind; \
+	dpkg-divert --divert /usr/bin/gnatchop.orig --rename /usr/bin/gnatchop; \
+	dpkg-divert --divert /usr/bin/gnatclean.orig --rename /usr/bin/gnatclean; \
+	dpkg-divert --divert /usr/bin/gnatfind.orig --rename /usr/bin/gnatfind; \
+	dpkg-divert --divert /usr/bin/gnatgcc.orig --rename /usr/bin/gnatgcc; \
+	dpkg-divert --divert /usr/bin/gnathtml.orig --rename /usr/bin/gnathtml; \
+	dpkg-divert --divert /usr/bin/gnatkr.orig --rename /usr/bin/gnatkr; \
+	dpkg-divert --divert /usr/bin/gnatlink.orig --rename /usr/bin/gnatlink; \
+	dpkg-divert --divert /usr/bin/gnatls.orig --rename /usr/bin/gnatls; \
+	dpkg-divert --divert /usr/bin/gnatmake.orig --rename /usr/bin/gnatmake; \
+	dpkg-divert --divert /usr/bin/gnatname.orig --rename /usr/bin/gnatname; \
+	dpkg-divert --divert /usr/bin/gnatprep.orig --rename /usr/bin/gnatprep; \
+	dpkg-divert --divert /usr/bin/gnatxref.orig --rename /usr/bin/gnatxref; \
 	update-alternatives --install /usr/bin/cc cc /usr/local/bin/gcc 999
